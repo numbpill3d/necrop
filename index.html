@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>† Digital Necropolis v3.1 †</title>
+    <style>
+        :root {
+            --bg-primary: #0d0d1a;
+            --bg-secondary: #1a1a2e;
+            --window-bg: #16161d;
+            --accent-1: #9370DB;
+            --accent-2: #BA55D3;
+            --accent-3: #663399;
+            --accent-4: #4B0082;
+            --border-light: #483D8B;
+            --border-dark: #301934;
+            --text-primary: #E6E6FA;
+            --text-secondary: #DDA0DD;
+            --crystal-1: #4B0082;
+            --crystal-2: #800080;
+            --crystal-3: #8B008B;
+            --rune-glow: #9400D3;
+            --shadow-purple: #2d1b2d;
+            --void-essence: #120321;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 100% 100%, var(--accent-2) 0%, transparent 20%),
+                radial-gradient(circle at 0% 0%, var(--accent-1) 0%, transparent 20%);
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--window-bg);
+            border: 2px solid var(--border-light);
+            box-shadow: 0 0 20px var(--shadow-purple);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-bar {
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            padding: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--window-bg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .title-bar-text {
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: 1px 1px var(--shadow-purple);
+        }
+
+        .title-bar-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .title-bar-controls button {
+            width: 16px;
+            height: 14px;
+            background: var(--bg-secondary);
+            border: 1px outset var(--border-light);
+            color: var(--text-primary);
+            font-size: 9px;
+            cursor: pointer;
+        }
+
+        .nav-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 4px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-button {
+            background: var(--window-bg);
+            border: 1px outset var(--border-light);
+            padding: 4px 12px;
+            font-size: 11px;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-transform: lowercase;
+        }
+
+        .nav-button:hover {
+            background: var(--accent-3);
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2px;
+            background: var(--border-light);
+            padding: 2px;
+        }
+
+        .sidebar {
+            background: var(--bg-secondary);
+            padding: 15px;
+        }
+
+        .profile-box {
+            background: var(--window-bg);
+            border: 1px solid var(--border-light);
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            margin: 10px auto;
+            background: var(--void-essence);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Courier New", monospace;
+            font-size: 24px;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 11px;
+            background: var(--bg-secondary);
+        }
+
+        .stats-table td {
+            padding: 5px;
+            border: 1px solid var(--border-light);
+        }
+
+        .stats-table td:first-child {
+            color: var(--text-secondary);
+            font-family: "Courier New", monospace;
+            width: 40%;
+        }
+
+        .crystal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .crystal {
+            aspect-ratio: 1;
+            background: var(--crystal-1);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+            animation: crystalPulse 3s infinite ease-in-out;
+        }
+
+        .main-content {
+            background: var(--bg-secondary);
+            padding: 15px;
+        }
+
+        .grimoire {
+            background: var(--window-bg);
+            border: 1px solid var(--border-light);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .grimoire-entry {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dotted var(--border-light);
+        }
+
+        .grimoire-date {
+            font-family: "Courier New", monospace;
+            color: var(--accent-2);
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .protocols {
+            background: var(--window-bg);
+            border: 1px solid var(--border-light);
+            padding: 15px;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .protocol-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            padding: 10px;
+            position: relative;
+        }
+
+        .protocol-name {
+            font-family: "Courier New", monospace;
+            color: var(--accent-2);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .protocol-status {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        @keyframes crystalPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Enhanced scrollbar */
+        ::-webkit-scrollbar {
+            width: 16px;
+            background: var(--window-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-1);
+            border: 1px outset var(--border-light);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="title-bar">
+            <div class="title-bar-text">† Digital Necropolis v3.1 †</div>
+            <div class="title-bar-controls">
+                <button>_</button>
+                <button>□</button>
+                <button>×</button>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <button class="nav-button">sanctum</button>
+            <button class="nav-button">grimoire</button>
+            <button class="nav-button">artifacts</button>
+            <button class="nav-button">crystals</button>
+            <button class="nav-button">runes</button>
+            <button class="nav-button">void</button>
+        </div>
+
+        <div class="content">
+            <div class="sidebar">
+                <div class="profile-box">
+                    <div class="avatar">†</div>
+                    <div style="font-size: 14px; margin: 5px 0;">Lady Ravencroft</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">Digital Necromancer</div>
+
+                    <div class="stats-table">
+                        <table>
+                            <tr><td>Class</td><td>Shadowmancer</td></tr>
+                            <tr><td>Level</td><td>XIII</td></tr>
+                            <tr><td>Alignment</td><td>New Moon</td></tr>
+                            <tr><td>Spirit</td><td>////////////</td></tr>
+                            <tr><td>Shadows</td><td>∞</td></tr>
+                            <tr><td>Runes</td><td>VII / XIII</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="crystal-grid">
+                    <div class="crystal"></div>
+                    <div class="crystal"></div>
+                    <div class="crystal"></div>
+                    <div class="crystal"></div>
+                    <div class="crystal"></div>
+                    <div class="crystal"></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="grimoire">
+                    <h3 style="color: var(--accent-2); margin: 0 0 15px 0; font-size: 14px;">† Dark Chronicles †</h3>
+                    
+                    <div class="grimoire-entry">
+                        <div class="grimoire-date">XIII.II.MMXXV</div>
+                        <div class="grimoire-text">
+                            Discovered ancient digital runes in the depths of the cyberspace void. 
+                            Their power grows stronger with each passing moon cycle...
+                        </div>
+                    </div>
+
+                    <div class="grimoire-entry">
+                        <div class="grimoire-date">XII.II.MMXXV</div>
+                        <div class="grimoire-text">
+                            The digital familiars whisper of hidden pathways through the electronic ether...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="protocols">
+                    <h3 style="color: var(--accent-2); margin: 0 0 15px 0; font-size: 14px;">† Forbidden Protocols †</h3>
+                    
+                    <div class="protocol-grid">
+                        <div class="protocol-item">
+                            <div class="protocol-name">C:\>VOID\manifest.exe</div>
+                            <div class="protocol-status">Manifesting digital shadows...</div>
+                        </div>
+                        <div class="protocol-item">
+                            <div class="protocol-name">C:\>RUNE\decrypt.bat</div>
+                            <div class="protocol-status">Decoding arcane binaries...</div>
+                        </div>
+                        <div class="protocol-item">
+                            <div class="protocol-name">C:\>CRYSTAL\align.sys</div>
+                            <div class="protocol-status">Aligning matrix nodes...</div>
+                        </div>
+                        <div class="protocol-item">
+                            <div class="protocol-name">C:\>FAMILIAR\summon.exe</div>
+                            <div class="protocol-status">Establishing void connection...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
